@@ -1,6 +1,22 @@
-import { combineReducers } from 'redux';
-/* import user from './user';
-import wallet from './wallet'; */
-const rootReducer = combineReducers({ user, wallet });
+import { USER_INFO } from '../actions';
 
-export default rootReducer;
+const INITIAL_STATE = {
+  name: '',
+  assertions: 0,
+  score: 0,
+  gravatarEmail: '',
+};
+const player = (state = INITIAL_STATE, action) => {
+  switch (action.type) {
+  case USER_INFO:
+    return {
+      ...state,
+      name: action.data.name,
+      gravatarEmail: action.data.email,
+    };
+  default:
+    return state;
+  }
+};
+
+export default player;
