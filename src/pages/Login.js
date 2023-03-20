@@ -32,10 +32,11 @@ class Login extends Component {
   handleClick = async () => {
     const { history } = this.props;
     await handleToken();
-    history.push('/lalaland');
+    history.push('/game');
   };
 
   render() {
+    const { history } = this.props;
     const { name, email, isButtonDisable } = this.state;
     return (
       <section>
@@ -43,6 +44,7 @@ class Login extends Component {
           Nome:
           {' '}
           <input
+            id="name"
             name="name"
             value={ name }
             type="text"
@@ -54,6 +56,7 @@ class Login extends Component {
           Email:
           {' '}
           <input
+            id="email"
             name="email"
             value={ email }
             type="text"
@@ -68,6 +71,13 @@ class Login extends Component {
           disabled={ isButtonDisable }
         >
           Play
+        </button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => history.push('/settings') }
+        >
+          Configurações
         </button>
       </section>
     );
