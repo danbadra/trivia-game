@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import handleToken from '../services/handlerToken';
 
 class Login extends Component {
   state = {
@@ -28,9 +29,9 @@ class Login extends Component {
     }, () => this.handleDisable());
   };
 
-  handleClick = () => {
-    console.log('clicou');
+  handleClick = async () => {
     const { history } = this.props;
+    await handleToken();
     history.push('/lalaland');
   };
 
@@ -74,10 +75,8 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
-  // dispatch: PropTypes.func.isRequired,
-};
+  history: PropTypes.object,
+  // dispatch: PropTypes.func,
+}.isRequired;
 
 export default Login;
