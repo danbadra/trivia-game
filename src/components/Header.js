@@ -10,7 +10,6 @@ class Header extends Component {
     const picture = handlePicture(gravatarEmail);
     return (
       <header>
-        <h1>Game</h1>
         <img src={ picture } alt="foto do usuário" data-testid="header-profile-picture" />
         <p data-testid="header-player-name">{ name }</p>
         <p data-testid="header-score">0</p>
@@ -20,7 +19,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ...state.player,
+  ...state,
 });
 
 Header.propTypes = {

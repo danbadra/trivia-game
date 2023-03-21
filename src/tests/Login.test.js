@@ -53,8 +53,8 @@ describe('Teste da pagina Login', () => {
     userEvent.type(nameInput, 'alguem');
     userEvent.type(emailInput, 'teste@teste.com');
 
-    expect(nameInput.value).toContain('alguem');
-    expect(emailInput.value).toContain('teste@teste.com');
+    expect(nameInput).toHaveValue('alguem');
+    expect(emailInput).toHaveValue('teste@teste.com');
   });
   it('Testa se o botão play desativa ou ativa conforme regras', () => {
     renderWithRouterAndRedux(<App/>);
