@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import handleToken from '../services/handlerToken';
+import { userData } from '../redux/actions';
 
 class Login extends Component {
   state = {
@@ -30,8 +32,10 @@ class Login extends Component {
   };
 
   handleClick = async () => {
-    const { history } = this.props;
+    const { name, email } = this.state;
+    const { history, dispatch } = this.props;
     await handleToken();
+    dispatch(userData({ name, email }));
     history.push('/game');
   };
 
@@ -86,7 +90,7 @@ class Login extends Component {
 
 Login.propTypes = {
   history: PropTypes.object,
-  // dispatch: PropTypes.func,
+  dispatch: PropTypes.func,
 }.isRequired;
 
-export default Login;
+export default connect(null)(Login);
