@@ -12,13 +12,14 @@ class Game extends Component {
     category: [],
     timer: 30,
     disable: false,
-    // answerIsClicked: false,
+    answerIsClicked: false,
   };
 
   async componentDidMount() {
     const { history } = this.props;
     const token = localStorage.getItem('token');
     const API_QUESTIONS = `https://opentdb.com/api.php?amount=5&token=${token}`;
+
     try {
       const response = await fetch(API_QUESTIONS);
       const data = await response.json();
@@ -52,23 +53,32 @@ class Game extends Component {
     } catch (error) {
       console.log(error.message);
     }
+
     this.handleTimer();
   }
 
   handleTimer = () => {
-    const totalTime = 30000;
+    // const totalTime = 30000;
     const sec = 1000;
     const countDown = setInterval(() => {
-      this.setState((prevState) => ({
-        timer: prevState.timer - 1,
-      }));
+      const { timer, answerIsClicked } = this.state;
+      if (timer > 0 && answerIsClicked === false) {
+        this.setState((prevState) => ({
+          timer: prevState.timer - 1,
+        }));
+      } else {
+        clearInterval(countDown);
+        this.setState({
+          disable: true,
+        });
+      }
     }, sec);
-    setTimeout(() => {
-      clearInterval(countDown);
-      this.setState({
-        disable: true,
-      });
-    }, totalTime);
+    // setTimeout(() => {
+    //   clearInterval(countDown);
+    //   this.setState({
+    //     disable: true,
+    //   });
+    // }, totalTime);
   };
 
   random = (corrects, incorrects) => {
@@ -85,6 +95,11 @@ class Game extends Component {
 
   handleAnswerClick = () => {
     const allAnswers = document.querySelectorAll('.answers');
+
+    this.setState({
+      answerIsClicked: true,
+    });
+
     allAnswers.forEach((answer) => {
       if (answer.id === 'correct-answer') {
         answer.style.border = '3px solid rgb(6, 240, 15)';
@@ -92,11 +107,11 @@ class Game extends Component {
         answer.style.border = '3px solid red';
       }
     });
-    clearInterval();
   };
 
   render() {
-    const { questions, answers, index, category, timer, disable } = this.state;
+    const { questions,
+      answers, index, category, timer, disable } = this.state;
     const arrayAnswers = answers[index];
     return (
       <section>
@@ -116,6 +131,7 @@ class Game extends Component {
                 onClick={ this.handleAnswerClick }
                 className="answers"
                 disabled={ disable }
+                // style={ { 'border-width': '3px' } }
               >
                 {answer.wrong || answer.correct}
               </button>))}
@@ -166,19 +182,3 @@ export default Game;
 // state = {
 //   timer: 5,
 // }
-
-// contador = () => {
-//   setInterval(() => {
-//     this.timerLogic()
-//   }, 1000);
-// }
-
-// timerLogic = () => {
-//   const { timer } = this.state;
-//   if (timer > 0) {
-//     this.setState((prevState) => ({
-//       timer: prevState.timer - 1,
-//     }));
-//   }
-//   return
-// };
