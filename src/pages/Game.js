@@ -10,6 +10,9 @@ class Game extends Component {
     questions: [],
     answers: [],
     category: [],
+    timer: 30,
+    disable: false,
+    // answerIsClicked: false,
   };
 
   async componentDidMount() {
@@ -49,12 +52,28 @@ class Game extends Component {
     } catch (error) {
       console.log(error.message);
     }
+    this.handleTimer();
   }
+
+  handleTimer = () => {
+    const totalTime = 30000;
+    const sec = 1000;
+    const countDown = setInterval(() => {
+      this.setState((prevState) => ({
+        timer: prevState.timer - 1,
+      }));
+    }, sec);
+    setTimeout(() => {
+      clearInterval(countDown);
+      this.setState({
+        disable: true,
+      });
+    }, totalTime);
+  };
 
   random = (corrects, incorrects) => {
     const id = () => Math.floor(Math.random() * 100);
     const correct = [{ id: id(), correct: corrects, testeID: 'correct-answer' }];
-
     const incorrect = incorrects.map((wrong, index) => ({
       id: id(),
       wrong,
@@ -64,8 +83,20 @@ class Game extends Component {
     return answers.sort((a, b) => a.id - b.id);
   };
 
+  handleAnswerClick = () => {
+    const allAnswers = document.querySelectorAll('.answers');
+    allAnswers.forEach((answer) => {
+      if (answer.id === 'correct-answer') {
+        answer.style.border = '3px solid rgb(6, 240, 15)';
+      } else {
+        answer.style.border = '3px solid red';
+      }
+    });
+    clearInterval();
+  };
+
   render() {
-    const { questions, answers, index, category } = this.state;
+    const { questions, answers, index, category, timer, disable } = this.state;
     const arrayAnswers = answers[index];
     return (
       <section>
@@ -74,10 +105,18 @@ class Game extends Component {
         <div data-testid="question-category" id="questions">
           <p data-testid="question-text">{questions[index]}</p>
         </div>
+        <p>{ timer }</p>
         <div data-testid="answer-options" id="answer">
           { answers.length === 0 ? <p>Carregando...</p>
             : arrayAnswers.map((answer, i) => (
-              <button key={ i } data-testid={ answer.testeID }>
+              <button
+                key={ i }
+                id={ answer.testeID }
+                data-testid={ answer.testeID }
+                onClick={ this.handleAnswerClick }
+                className="answers"
+                disabled={ disable }
+              >
                 {answer.wrong || answer.correct}
               </button>))}
         </div>
@@ -124,18 +163,22 @@ export default Game;
 //       {... x5}
 //   ]
 // }
+// state = {
+//   timer: 5,
+// }
 
-// const a = [ 1, 2, 3, 4, 5]
+// contador = () => {
+//   setInterval(() => {
+//     this.timerLogic()
+//   }, 1000);
+// }
 
-// const id = () => Math.floor(Math.random() * 100)
-
-// const teste = a.map((numero) => {
-//   return [id(), numero]
-// })
-
-// console.log(teste);
-// console.log(teste[0]);
-
-// console.log(teste.sort((a,b) => {
-//   return a[0] - b[0]
-// }));
+// timerLogic = () => {
+//   const { timer } = this.state;
+//   if (timer > 0) {
+//     this.setState((prevState) => ({
+//       timer: prevState.timer - 1,
+//     }));
+//   }
+//   return
+// };
