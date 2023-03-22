@@ -109,9 +109,27 @@ class Game extends Component {
     });
   };
 
+  handleNextBtn = () => {
+    const { history } = this.props;
+    const { index } = this.state;
+    const lastQuestion = 5;
+    if (index < lastQuestion) {
+      this.setState({
+        index: index + 1,
+        disable: false,
+        answerIsClicked: false,
+      });
+      const allAnswers = document.querySelectorAll('.answers');
+      allAnswers.forEach((answer) => {
+        answer.style.border = '1px solid black';
+      });
+    }
+    history.push('/feedback');
+  };
+
   render() {
     const { questions,
-      answers, index, category, timer, disable } = this.state;
+      answers, index, category, timer, disable, answerIsClicked } = this.state;
     const arrayAnswers = answers[index];
     return (
       <section>
@@ -135,6 +153,17 @@ class Game extends Component {
               >
                 {answer.wrong || answer.correct}
               </button>))}
+        </div>
+        <div>
+          {(answerIsClicked === true)
+          && (
+            <button
+              data-testid="btn-next"
+              onClick={ this.handleNextBtn }
+            >
+              Next
+            </button>
+          )}
         </div>
       </section>
     );
