@@ -163,3 +163,22 @@ export default Game;
 //       {... x5}
 //   ]
 // }
+// state = {
+//   timer: 5,
+// }
+
+// contador = () => {
+//   setInterval(() => {
+//     this.timerLogic()
+//   }, 1000);
+// }
+
+// timerLogic = () => {
+//   const { timer } = this.state;
+//   if (timer > 0) {
+//     this.setState((prevState) => ({
+//       timer: prevState.timer - 1,
+//     }));
+//   }
+//   return
+// };
