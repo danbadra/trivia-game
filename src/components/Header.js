@@ -6,25 +6,26 @@ import handlePicture from '../services/handlePicture';
 
 class Header extends Component {
   render() {
-    const { name, gravatarEmail } = this.props;
+    const { name, gravatarEmail, score } = this.props;
     const picture = handlePicture(gravatarEmail);
     return (
       <header>
         <img src={ picture } alt="foto do usuário" data-testid="header-profile-picture" />
         <p data-testid="header-player-name">{ name }</p>
-        <p data-testid="header-score">0</p>
+        <p data-testid="header-score">{ score }</p>
       </header>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  ...state,
+  ...state.player,
 });
 
 Header.propTypes = {
   name: PropTypes.string,
   gravatarEmail: PropTypes.string,
+  score: PropTypes.number,
 }.isRequired;
 
 export default connect(mapStateToProps)(Header);

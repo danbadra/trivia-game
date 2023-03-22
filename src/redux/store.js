@@ -1,8 +1,8 @@
 import { legacy_createStore as createStore } from 'redux';
 import { composeWithDevTools } from '@redux-devtools/extension';
-import player from './reducers';
+import rootReducer from './reducers';
 
-const store = createStore(player, composeWithDevTools());
+const store = createStore(rootReducer, composeWithDevTools());
 
 if (window.Cypress) {
   window.store = store;
