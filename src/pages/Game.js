@@ -110,16 +110,21 @@ class Game extends Component {
   };
 
   handleNextBtn = () => {
+    const { history } = this.props;
     const { index } = this.state;
-    this.setState({
-      index: index + 1,
-      disable: false,
-      answerIsClicked: false,
-    });
-    const allAnswers = document.querySelectorAll('.answers');
-    allAnswers.forEach((answer) => {
-      answer.style.border = '1px solid black';
-    });
+    const lastQuestion = 5;
+    if (index < lastQuestion) {
+      this.setState({
+        index: index + 1,
+        disable: false,
+        answerIsClicked: false,
+      });
+      const allAnswers = document.querySelectorAll('.answers');
+      allAnswers.forEach((answer) => {
+        answer.style.border = '1px solid black';
+      });
+    }
+    history.push('/feedback');
   };
 
   render() {
