@@ -109,9 +109,16 @@ class Game extends Component {
     });
   };
 
+  handleNextBtn = () => {
+    const { index } = this.state;
+    this.setState({
+      index: index + 1,
+    });
+  };
+
   render() {
     const { questions,
-      answers, index, category, timer, disable } = this.state;
+      answers, index, category, timer, disable, answerIsClicked } = this.state;
     const arrayAnswers = answers[index];
     return (
       <section>
@@ -135,6 +142,17 @@ class Game extends Component {
               >
                 {answer.wrong || answer.correct}
               </button>))}
+        </div>
+        <div>
+          {(answerIsClicked === true)
+          && (
+            <button
+              data-testid="btn-next"
+              onClick={ this.handleNextBtn }
+            >
+              Next
+            </button>
+          )}
         </div>
       </section>
     );
