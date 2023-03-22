@@ -5,7 +5,6 @@ import Header from '../components/Header';
 import { userScore } from '../redux/actions';
 import handleDifficulty from '../services/handleDifficulty';
 import random from '../services/random';
-import handleStorage from '../services/handleStorage';
 
 class Game extends Component {
   state = {
@@ -112,7 +111,6 @@ class Game extends Component {
           score,
         };
         dispatch(userScore(data));
-        handleStorage();
       });
     }
   };

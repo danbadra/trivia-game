@@ -11,7 +11,7 @@ class Header extends Component {
     return (
       <header>
         <img src={ picture } alt="foto do usuário" data-testid="header-profile-picture" />
-        <p data-testid="header-player-name">{ name }</p>
+        <h3 data-testid="header-player-name">{ name }</h3>
         <p data-testid="header-score">{ score }</p>
       </header>
     );
