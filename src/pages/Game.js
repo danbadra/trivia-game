@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
+import { userScore } from '../redux/actions';
+import handleDifficulty from '../services/handleDifficulty';
+import random from '../services/random';
+import handleStorage from '../services/handleStorage';
 
 class Game extends Component {
   state = {
-    // assertions: 0,
-    // score: 0,
+    assertions: 0,
+    score: 0,
     index: 0,
     questions: [],
     answers: [],
@@ -13,6 +18,7 @@ class Game extends Component {
     timer: 30,
     disable: false,
     answerIsClicked: false,
+    arrDifficulty: [],
   };
 
   async componentDidMount() {
@@ -31,23 +37,12 @@ class Game extends Component {
         history.push('/');
       } else {
         this.setState({
-          questions: [
-            results[0].question,
-            results[1].question,
-            results[2].question,
-            results[3].question,
-            results[4].question,
-          ],
+          questions: results.map((result) => result.question),
           answers: results.map(
-            (result) => this.random(result.correct_answer, result.incorrect_answers),
+            (result) => random(result.correct_answer, result.incorrect_answers),
           ),
-          category: [
-            results[0].category,
-            results[1].category,
-            results[2].category,
-            results[3].category,
-            results[4].category,
-          ],
+          category: results.map((result) => result.category),
+          arrDifficulty: results.map((result) => result.difficulty),
         });
       }
     } catch (error) {
@@ -58,7 +53,6 @@ class Game extends Component {
   }
 
   handleTimer = () => {
-    // const totalTime = 30000;
     const sec = 1000;
     const countDown = setInterval(() => {
       const { timer, answerIsClicked } = this.state;
@@ -73,40 +67,54 @@ class Game extends Component {
         });
       }
     }, sec);
-    // setTimeout(() => {
-    //   clearInterval(countDown);
-    //   this.setState({
-    //     disable: true,
-    //   });
-    // }, totalTime);
   };
 
-  random = (corrects, incorrects) => {
-    const id = () => Math.floor(Math.random() * 100);
-    const correct = [{ id: id(), correct: corrects, testeID: 'correct-answer' }];
-    const incorrect = incorrects.map((wrong, index) => ({
-      id: id(),
-      wrong,
-      testeID: `wrong-answer-${index}`,
-    }));
-    const answers = [...correct, ...incorrect];
-    return answers.sort((a, b) => a.id - b.id);
-  };
-
-  handleAnswerClick = () => {
+  handleAnswerClick = ({ target }) => {
+    const correctAnswer = 'correct-answer';
     const allAnswers = document.querySelectorAll('.answers');
+    const { timer, arrDifficulty, index } = this.state;
+    const { dispatch } = this.props;
+    const ten = 10;
 
     this.setState({
       answerIsClicked: true,
     });
 
     allAnswers.forEach((answer) => {
-      if (answer.id === 'correct-answer') {
+      if (answer.id === correctAnswer) {
         answer.style.border = '3px solid rgb(6, 240, 15)';
       } else {
         answer.style.border = '3px solid red';
       }
     });
+
+    if (target.id === correctAnswer) {
+      const scoreCalc = ten + (handleDifficulty(arrDifficulty[index]) * timer);
+      this.setState((prevState) => ({
+        score: prevState.score + scoreCalc,
+        assertions: prevState.assertions + 1,
+      }), () => {
+        const { score, assertions } = this.state;
+        const data = {
+          assertions,
+          score,
+        };
+        dispatch(userScore(data));
+      });
+    } else {
+      this.setState((prevState) => ({
+        score: prevState.score,
+        assertions: prevState.assertions,
+      }), () => {
+        const { score, assertions } = this.state;
+        const data = {
+          assertions,
+          score,
+        };
+        dispatch(userScore(data));
+        handleStorage();
+      });
+    }
   };
 
   handleNextBtn = () => {
@@ -117,7 +125,10 @@ class Game extends Component {
       index: index + 1,
       disable: false,
       answerIsClicked: false,
+      timer: 30,
     });
+
+    this.handleTimer();
 
     const allAnswers = document.querySelectorAll('.answers');
     allAnswers.forEach((answer) => {
@@ -131,8 +142,8 @@ class Game extends Component {
   };
 
   render() {
-    const { questions,
-      answers, index, category, timer, disable, answerIsClicked } = this.state;
+    const { questions, answers, index, category, timer, disable,
+      answerIsClicked } = this.state;
     const arrayAnswers = answers[index];
     return (
       <section>
@@ -152,7 +163,6 @@ class Game extends Component {
                 onClick={ this.handleAnswerClick }
                 className="answers"
                 disabled={ disable }
-                // style={ { 'border-width': '3px' } }
               >
                 {answer.wrong || answer.correct}
               </button>))}
@@ -176,21 +186,15 @@ class Game extends Component {
 Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func }),
+  dispatch: PropTypes.func,
 }.isRequired;
 
-export default Game;
+export default connect(null)(Game);
 
 // LOCAL STORAGE:
 // ranking: [
 //   { name: nome_da_pessoa, score: 10, picture: url_da_foto_no_gravatar }
 // ],
-
-// TOKEN:
-// {
-//   "response_code":0,
-//   "response_message":"Token Generated Successfully!",
-//   "token":"f00cb469ce38726ee00a7c6836761b0a4fb808181a125dcde6d50a9f3c9127b6"
-// }
 
 // Pergunta de múltipla escolha
 // {
@@ -210,7 +214,4 @@ export default Game;
 //       }
 //       {... x5}
 //   ]
-// }
-// state = {
-//   timer: 5,
 // }
