@@ -58,7 +58,7 @@ class Game extends Component {
   handleTimer = () => {
     const totalTime = 30000;
     const sec = 1000;
-    countDown = setInterval(() => {
+    const countDown = setInterval(() => {
       this.setState((prevState) => ({
         timer: prevState.timer - 1,
       }));
@@ -92,7 +92,7 @@ class Game extends Component {
         answer.style.border = '3px solid red';
       }
     });
-    clearInterval(countDown);
+    clearInterval();
   };
 
   render() {
