@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Slab:wght@100;400;700&display=swap') ;
+
+* {
+  color: black;
+  font-family: Josefin Slab , serif;
+  font-size: 20px;
+}
+
+body {
+  background-image: url('../background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
+  width: 100vw;
+}
+
+.login-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+}
+
+.App-logo {
+  margin: 10px;
+}
+
+.login-box {
+  align-items: center;
+  background-color: whitesmoke;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  justify-content: center;
+  padding: 10px;
+  width: 400px;
+}
+
+.login-btn-play, .login-btn-settings {
+  background-color: rgb(107, 211, 107);
+  border-radius: 20px;
+  border-style: none;
+  line-height: 25px;
+  margin-top: 10px;
+  width: 200px;
+}
+
+.login-btn-play:disabled {
+  background-color: rgb(151, 151, 151);
+  cursor: not-allowed;
+}
+
+.login-btn-settings:hover, .login-btn-play:enabled {
+  background-color: rgb(37, 71, 37);
+  color: white;
+  cursor: pointer;
+}
+
+.login-box > label {
+  font-weight: 700;
+}
+
+.login-box > label > input {
+  border: 1px solid rgb(37, 71, 37);
+  border-radius: 5px;
+  line-height: 30px;
+  margin-bottom: 20px;
+}
+
+header {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100vw;
+}
+
+.player-picture {
+  border-radius: 50%;
+  margin: 10px;
+}
+
+.player-name, .player-score, .score {
+  color: white;
+  font-weight: 700;
+  margin: 20px;
+}
+
+.score-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 160px;
+}
+
+.logo {
+  height: 15vmin;
+  margin: 10px;
+  pointer-events: none;
+}
+
+.game-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin: 50px;
+  width: 100%;
+}
+
+.question-wrapper {
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 450px;
+  justify-content: space-evenly;
+  padding: 20px;
+  width: 400px;
+}
+
+.category-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  height: 35px;
+  width: 100%;
+}
+
+.question {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  height: 35px;
+  width: 100%;
+}
+
+.category-wrapper > strong, .question > strong {
+  margin: 10px;
+}
+
+.timer, .timer > span {
+  color: red;
+}
+
+.answer-wrapper {
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 450px;
+  justify-content: space-evenly;
+  padding: 20px;
+  width: 400px;
+}
+
+.answers {
+  border-radius: 20px;
+  border-style: none;
+  cursor: pointer;
+  line-height: 40px;
+  width: 100%;
+}
+
+.answers:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+}
+
+.next-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.next-btn {
+  border-radius: 20px;
+  border-style: none;
+  cursor: pointer;
+  line-height: 40px;
+  width: 200px;
+}
+
+.next-btn:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+}
+
+.feedback-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.feedback {
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 30px;
+  width: 500px;
+}
+
+.feedback > main {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.feedback-score {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.feedback-score > span {
+  font-weight: 700;
+  margin: 20px;
+}
+
+.feedback-btn {
+  border-radius: 20px;
+  border-style: none;
+  cursor: pointer;
+  line-height: 40px;
+  margin: 10px;
+  width: 200px;
+}
+
+.feedback-btn:hover {
+  background-color: rgba(89, 182, 89, 0.8);
+}
+
+.ranking-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ranking-title {
+  color: yellow;
+  font-size: 50px;
+  text-transform: uppercase;
+}
+
+.ranking-table {
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  display: flex;
+  overflow: scroll;
+  padding: 20px;
+  width: 300px;
+}
+
+th, td {
+  padding: 10px;
+}

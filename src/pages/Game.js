@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import { userScore } from '../redux/actions';
 import handleDifficulty from '../services/handleDifficulty';
 import random from '../services/random';
+import logo from '../trivia.png';
 
 class Game extends Component {
   state = {
@@ -82,8 +83,10 @@ class Game extends Component {
     allAnswers.forEach((answer) => {
       if (answer.id === correctAnswer) {
         answer.style.border = '3px solid rgb(6, 240, 15)';
+        answer.style.boxShadow = '0px 0px 8px 1px rgb(6, 240, 15)';
       } else {
         answer.style.border = '3px solid red';
+        answer.style.boxShadow = '0px 0px 8px 1px red';
       }
     });
 
@@ -131,6 +134,7 @@ class Game extends Component {
     const allAnswers = document.querySelectorAll('.answers');
     allAnswers.forEach((answer) => {
       answer.style.border = '1px solid black';
+      answer.style.boxShadow = 'none';
     });
 
     if (index === lastQuestion) {
@@ -146,29 +150,46 @@ class Game extends Component {
     return (
       <section>
         <Header />
-        <p data-testid="question-category">{category[index]}</p>
-        <div data-testid="question-category" id="questions">
-          <p data-testid="question-text">{questions[index]}</p>
+        <div className="game-wrapper">
+          <div className="question-wrapper">
+            <img className="logo" src={ logo } alt="logo" />
+            <div className="category-wrapper">
+              <strong>Category: </strong>
+              <p data-testid="question-category">{category[index]}</p>
+            </div>
+            <div
+              className="question"
+              data-testid="question-category"
+              id="questions"
+            >
+              <strong>Q: </strong>
+              <p data-testid="question-text">{questions[index]}</p>
+            </div>
+            <p className="timer">
+              { timer }
+              <span>s</span>
+            </p>
+          </div>
+          <div className="answer-wrapper" data-testid="answer-options" id="answer">
+            { answers.length === 0 ? <p>Carregando...</p>
+              : arrayAnswers.map((answer, i) => (
+                <button
+                  key={ i }
+                  id={ answer.testeID }
+                  data-testid={ answer.testeID }
+                  onClick={ this.handleAnswerClick }
+                  className="answers"
+                  disabled={ disable }
+                >
+                  {answer.wrong || answer.correct}
+                </button>))}
+          </div>
         </div>
-        <p>{ timer }</p>
-        <div data-testid="answer-options" id="answer">
-          { answers.length === 0 ? <p>Carregando...</p>
-            : arrayAnswers.map((answer, i) => (
-              <button
-                key={ i }
-                id={ answer.testeID }
-                data-testid={ answer.testeID }
-                onClick={ this.handleAnswerClick }
-                className="answers"
-                disabled={ disable }
-              >
-                {answer.wrong || answer.correct}
-              </button>))}
-        </div>
-        <div>
+        <div className="next-btn-wrapper">
           {(answerIsClicked === true)
           && (
             <button
+              className="next-btn"
               data-testid="btn-next"
               onClick={ this.handleNextBtn }
             >
@@ -188,28 +209,3 @@ Game.propTypes = {
 }.isRequired;
 
 export default connect(null)(Game);
-
-// LOCAL STORAGE:
-// ranking: [
-//   { name: nome_da_pessoa, score: 10, picture: url_da_foto_no_gravatar }
-// ],
-
-// Pergunta de múltipla escolha
-// {
-//   "response_code":0,
-//   "results":[
-//       {
-//         "category":"Entertainment: Video Games",
-//         "type":"multiple",
-//         "difficulty":"easy",
-//         "question":"What is the first weapon you acquire in Half-Life?",
-//         "correct_answer":"A crowbar",
-//         "incorrect_answers":[
-//             "A pistol",
-//             "The H.E.V suit",
-//             "Your fists"
-//         ]
-//       }
-//       {... x5}
-//   ]
-// }
