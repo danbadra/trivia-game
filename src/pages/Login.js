@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import handleToken from '../services/handleToken';
 import { userData } from '../redux/actions';
+import logo from '../trivia.png';
 
 class Login extends Component {
   state = {
@@ -43,46 +44,51 @@ class Login extends Component {
     const { history } = this.props;
     const { name, email, isButtonDisable } = this.state;
     return (
-      <section>
-        <label htmlFor="name">
-          Nome:
-          {' '}
-          <input
-            id="name"
-            name="name"
-            value={ name }
-            type="text"
-            data-testid="input-player-name"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="email">
-          Email:
-          {' '}
-          <input
-            id="email"
-            name="email"
-            value={ email }
-            type="text"
-            data-testid="input-gravatar-email"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <button
-          type="button"
-          data-testid="btn-play"
-          onClick={ this.handleClick }
-          disabled={ isButtonDisable }
-        >
-          Play
-        </button>
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ () => history.push('/settings') }
-        >
-          Configurações
-        </button>
+      <section className="login-wrapper">
+        <img className="App-logo" src={ logo } alt="logo" />
+        <div className="login-box">
+          <label htmlFor="name">
+            Nome:
+            {' '}
+            <input
+              id="name"
+              name="name"
+              value={ name }
+              type="text"
+              data-testid="input-player-name"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="email">
+            Email:
+            {' '}
+            <input
+              id="email"
+              name="email"
+              value={ email }
+              type="text"
+              data-testid="input-gravatar-email"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <button
+            className="login-btn-play"
+            type="button"
+            data-testid="btn-play"
+            onClick={ this.handleClick }
+            disabled={ isButtonDisable }
+          >
+            Play
+          </button>
+          <button
+            className="login-btn-settings"
+            type="button"
+            data-testid="btn-settings"
+            onClick={ () => history.push('/settings') }
+          >
+            Configurações
+          </button>
+        </div>
       </section>
     );
   }

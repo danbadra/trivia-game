@@ -10,9 +10,17 @@ class Header extends Component {
     const picture = handlePicture(gravatarEmail);
     return (
       <header>
-        <img src={ picture } alt="foto do usuário" data-testid="header-profile-picture" />
-        <h3 data-testid="header-player-name">{ name }</h3>
-        <p data-testid="header-score">{ score }</p>
+        <img
+          className="player-picture"
+          src={ picture }
+          alt="foto do usuário"
+          data-testid="header-profile-picture"
+        />
+        <h3 className="player-name" data-testid="header-player-name">{ name }</h3>
+        <div className="score-wrapper">
+          <p className="score">Score: </p>
+          <p className="player-score" data-testid="header-score">{ score }</p>
+        </div>
       </header>
     );
   }

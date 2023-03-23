@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import logo from '../trivia.png';
 // import Header from '../components/Header';
 
 class Ranking extends Component {
@@ -9,11 +10,11 @@ class Ranking extends Component {
     const savedRanking = JSON.parse(savedRankingJson);
     // const one = 1;
     return (
-      <section>
-        <h1 data-testid="ranking-title">Ranking</h1>
+      <section className="ranking-wrapper">
+        <h1 className="ranking-title" data-testid="ranking-title">Ranking</h1>
+        <img className="logo" src={ logo } alt="logo" />
         {/* <Header /> */}
-        <main>
-          <h1 data-testid="ranking-title">Ranking</h1>
+        <main className="ranking-table">
           <table>
             <thead>
               <th>Avatar</th>
@@ -25,7 +26,11 @@ class Ranking extends Component {
                 savedRanking.sort((a, b) => b.score - a.score).map((rank, index) => (
                   <tr key={ index }>
                     <td>
-                      <img src={ rank.picture } alt="Gravatar." />
+                      <img
+                        className="player-picture"
+                        src={ rank.picture }
+                        alt="Gravatar."
+                      />
                     </td>
                     <td data-testid={ `player-name-${index}` }>{rank.name}</td>
                     <td data-testid={ `player-score-${index}` }>{rank.score}</td>
